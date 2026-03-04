@@ -188,10 +188,29 @@ O peso 4 no valor mais provável deriva da **distribuição Beta**, adequada par
 
 ```
 EffortEstimator/
-├── PertEstimator.cs     # Implementação completa (modelos + engine + CLI)
-├── README.md            # Este arquivo
-└── DECISIONS.md         # Justificativas das decisões do algorítmo e por que as coisas são como são
-└── ALGORITHM.md         # Explicação de como o algorítmo funciona
+├── 📂 .claude/
+│   └── 📂 dotnet-standards
+│   │   ├── 📂 references/
+│   │   │   ├── 📖 naming-conventions.md
+│   │   │   ├── 📖 project-structure.md
+│   │   │   └── 📖 solid-principles.md
+│   │   └── 📖 SKILL.md
+├── 📖 docs/
+│   ├── 📖 ALGORITHM.md
+│   └── 📖 DECISIONS.md
+├── 📄 EffortEstimator.sln
+├── 🔴 📖 **README.md**
+├── 📁 src/
+│   ├── 📖 CLAUDE.md
+│   ├── 📄 EffortEstimator.cs
+│   ├── 📄 EffortEstimator.csproj
+│   ├── 📄 Program.cs
+│   ├── 📂 skills/
+│   └── 📄 src.sln
+└── 🧪 tests/
+│   └── 📂 EffortEstimator.Tests/
+│   │   ├── 📄 EffortEstimator.Tests.csproj
+│   │   └── 📄 PertEngineTests.cs
 ```
 
 ---
