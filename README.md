@@ -13,8 +13,8 @@ Algoritmo de estimativa de esforço para tarefas de desenvolvimento de software 
 ## Instalação
 
 ```bash
-git clone https://github.com/seu-usuario/EffortEstimator.git
-cd EffortEstimator
+git clone https://github.com/seu-usuario/effort-estimator.git
+cd effort-estimator
 dotnet build
 ```
 
