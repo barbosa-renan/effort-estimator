@@ -33,6 +33,7 @@ Invoke the relevant skill for active refactoring or test writing/reviewing proce
 |---|---|
 | `.claude/skills/dotnet-standards/SKILL.md` | Refactoring C# code — scan, diagnose, and fix violations |
 | `.claude/skills/dotnet-unit-testing/SKILL.md` | Writing new tests or reviewing existing test files |
+| `.claude/skills/azure-devops-mcp/SKILL.md` | Reading work items and implementing tasks from Azure DevOps |
 
 ---
 
@@ -48,10 +49,15 @@ EffortEstimator/
 │   │   │   │   ├── project-structure.md
 │   │   │   │   └── solid-principles.md
 │   │   │   └── SKILL.md
-│   │   └── dotnet-unit-testing/
+│   │   ├── dotnet-unit-testing/
+│   │   │   ├── references/
+│   │   │   │   ├── advanced-patterns.md
+│   │   │   │   └── convetions.md
+│   │   │   └── SKILL.md
+│   │   └── azure-devops-mcp/
 │   │       ├── references/
-│   │       │   ├── advanced-patterns.md
-│   │       │   └── convetions.md
+│   │       │   ├── setup.md
+│   │       │   └── mcp-tools.md
 │   │       └── SKILL.md
 │   └── rules/
 │   │   ├── RULES.md
