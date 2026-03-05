@@ -1,39 +1,14 @@
 ---
 name: dotnet-standards
-description: >
-  Apply Clean Code, SOLID, DRY, and KISS principles to any .NET C# project,
-  covering both code quality refactoring and project structure reorganization.
-  Use this skill whenever the user wants to: refactor C# code for better
-  readability, fix poorly named variables or parameters, replace magic numbers
-  with named constants, replace string discriminators with enums, split
-  oversized methods, remove redundant comments, separate classes into proper
-  files, apply SRP to Models/Services/Utils folders, introduce interfaces for
-  dependency inversion, convert static classes to injectable services, or
-  reorganize a .NET project folder structure. Also trigger when the user
-  mentions "clean code", "SOLID", "refactor", "separate classes", "naming",
-  "project structure", "dependency injection", "code smell", or when multiple
-  classes live in a single file.
+description: "Apply Clean Code, SOLID, DRY, and KISS to any .NET C# project. Trigger when: refactoring C# code, fixing naming, extracting constants or enums, splitting oversized methods, reorganizing project structure, applying SRP/DI, converting static classes to injectable services, or when the user mentions clean code, SOLID, refactor, naming, project structure, code smell."
 ---
 
-# .NET Standards — Clean Code + Project Structure
+# .NET Standards — Refactoring Procedure
 
-This skill covers two levels of improvement that typically go hand in hand.
-Both phases are project-agnostic and apply to any .NET C# codebase.
+Conventions and naming rules are defined in `.claude/rules/dotnet-standards.md`.
+Detailed before/after examples are in the `references/` folder.
 
-| Level | Scope | Reference |
-|---|---|---|
-| **Code** | Naming, constants, enums, methods, comments | `references/naming-conventions.md` |
-| **Project** | Folder separation, interfaces, files | `references/project-structure.md` |
-| **Principles** | SOLID, DRY, KISS with practical examples | `references/solid-principles.md` |
-
-Read the relevant reference file before proposing any changes.
-
----
-
-## Normalization Process
-
-When receiving a C# project or file to normalize, run both phases in sequence.
-Present the diagnosis of each phase to the user before applying corrections.
+Apply both phases in sequence. Present the diagnosis of each phase before applying corrections.
 
 ---
 
@@ -62,20 +37,8 @@ Scan the code and classify each violation:
 5. **Records** — convert immutable data classes to `record`
 6. **Comments** — remove redundant ones, keep those that explain "why"
 
-### Quick Naming Rules
-
-```
-Local variable:     camelCase, intent-revealing name
-Parameter:          camelCase, never abbreviated
-Private field:      _camelCase with underscore prefix
-Constant:           PascalCase (const or static readonly)
-Property:           PascalCase
-Method:             PascalCase, verb in infinitive form
-Class/Record/Enum:  PascalCase, noun
-Interface:          IPascalCase
-```
-
-For detailed before/after examples -> `references/naming-conventions.md`
+For naming patterns and before/after examples → `references/naming-conventions.md`
+For SOLID, DRY, KISS examples → `references/solid-principles.md`
 
 ---
 
@@ -93,37 +56,7 @@ For each existing type, identify its correct folder:
 | Stateless helpers and extension methods | `Utils/` |
 | Dependency composition and I/O | `Program.cs` |
 
-### Standard Folder Structure
-
-```
-MyApp/
-├── MyApp.sln
-└── src/
-    └── MyApp/
-        ├── MyApp.csproj
-        ├── Program.cs
-        ├── Models/
-        │   └── Enums/
-        ├── Services/
-        └── Utils/
-```
-
-For the full structure with naming conventions -> `references/project-structure.md`
-
-### Dependency Rules
-
-```
-Program.cs  ->  Services  ->  Models
-                   |
-                 Utils
-```
-
-- Models has no dependencies on Services or Utils
-- Utils has no dependencies on Models or Services
-- Services depends on Models and may use Utils
-- Program.cs is the only place that does I/O
-
-For SOLID principles and code examples -> `references/solid-principles.md`
+For the full structure reference → `references/project-structure.md`
 
 ---
 
