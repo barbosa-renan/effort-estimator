@@ -31,8 +31,8 @@ Invoke the relevant skill for active refactoring or test writing/reviewing proce
 
 | Skill | When to invoke |
 |---|---|
-| `.claude/dotnet-standards/SKILL.md` | Refactoring C# code — scan, diagnose, and fix violations |
-| `.claude/dotnet-unit-testing/SKILL.md` | Writing new tests or reviewing existing test files |
+| `.claude/skills/dotnet-standards/SKILL.md` | Refactoring C# code — scan, diagnose, and fix violations |
+| `.claude/skills/dotnet-unit-testing/SKILL.md` | Writing new tests or reviewing existing test files |
 
 ---
 
@@ -41,17 +41,18 @@ Invoke the relevant skill for active refactoring or test writing/reviewing proce
 ```
 EffortEstimator/
 ├── .claude/
-│   ├── dotnet-standards/
-│   │   ├── references/
-│   │   │   ├── naming-conventions.md
-│   │   │   ├── project-structure.md
-│   │   │   └── solid-principles.md
-│   │   └── SKILL.md
-│   ├── dotnet-unit-testing/
-│   │   ├── references/
-│   │   │   ├── advanced-patterns.md
-│   │   │   └── convetions.md
-│   │   └── SKILL.md
+│   ├── skills/
+│   │   ├── dotnet-standards/
+│   │   │   ├── references/
+│   │   │   │   ├── naming-conventions.md
+│   │   │   │   ├── project-structure.md
+│   │   │   │   └── solid-principles.md
+│   │   │   └── SKILL.md
+│   │   └── dotnet-unit-testing/
+│   │       ├── references/
+│   │       │   ├── advanced-patterns.md
+│   │       │   └── convetions.md
+│   │       └── SKILL.md
 │   └── rules/
 │   │   ├── RULES.md
 │   │   ├── dotnet-standards.md

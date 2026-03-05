@@ -1,7 +1,7 @@
 # .NET Testing Conventions — xUnit + FluentAssertions
 
 Always-active conventions for any test code in this project.
-For step-by-step test writing/reviewing procedures, use the `.claude/dotnet-unit-testing/SKILL.md` skill.
+For step-by-step test writing/reviewing procedures, use the `.claude/skills/dotnet-unit-testing/SKILL.md` skill.
 
 ---
 

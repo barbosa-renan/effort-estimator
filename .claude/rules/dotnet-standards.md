@@ -1,7 +1,7 @@
 # .NET Standards — Conventions
 
 Always-active conventions for any C# code in this project.
-For step-by-step refactoring/review procedures, use the `.claude/dotnet-standards/SKILL.md` skill.
+For step-by-step refactoring/review procedures, use the `.claude/skills/dotnet-standards/SKILL.md` skill.
 
 ---
 
