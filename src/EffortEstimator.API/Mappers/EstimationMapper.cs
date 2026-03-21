@@ -26,17 +26,23 @@ public static class EstimationMapper
         };
 
     public static EstimateResponse ToEstimateResponse(EstimationResult result) =>
-        new(
-            result.TaskDescription,
-            result.Optimistic,
-            result.MostLikely,
-            result.Pessimistic,
-            result.PertHours,
-            result.StandardDeviation,
-            result.Variance,
-            result.StoryPoints,
-            new ConfidenceRangeResponse(result.ConfidenceRange.Low, result.ConfidenceRange.High),
-            result.RiskLevel.ToString());
+        new()
+        {
+            TaskDescription   = result.TaskDescription,
+            Optimistic        = result.Optimistic,
+            MostLikely        = result.MostLikely,
+            Pessimistic       = result.Pessimistic,
+            PertHours         = result.PertHours,
+            StandardDeviation = result.StandardDeviation,
+            Variance          = result.Variance,
+            StoryPoints       = result.StoryPoints,
+            ConfidenceRange   = new ConfidenceRangeResponse
+            {
+                Low  = result.ConfidenceRange.Low,
+                High = result.ConfidenceRange.High,
+            },
+            RiskLevel = result.RiskLevel.ToString(),
+        };
 
     private static TEnum ParseOrDefault<TEnum>(string? value, TEnum fallback) where TEnum : struct, Enum =>
         !string.IsNullOrEmpty(value) && Enum.TryParse<TEnum>(ToPascalCase(value), ignoreCase: true, out TEnum parsed)
