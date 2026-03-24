@@ -107,14 +107,14 @@ Investigate, fix, verify, report.
 
 ```bash
 # Build
-dotnet build
+dotnet build apps/api/EffortEstimator.sln
 
-# Run with embedded example
-dotnet run --project src/EffortEstimator
+# Run the API
+dotnet run --project apps/api/src/EffortEstimator.API
 
 # Run tests
-dotnet test
+dotnet test apps/api/EffortEstimator.sln
 
 # Run tests with output
-dotnet test --logger "console;verbosity=detailed"
+dotnet test apps/api/EffortEstimator.sln --logger "console;verbosity=detailed"
 ```
