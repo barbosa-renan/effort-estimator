@@ -1,44 +1,44 @@
 # EffortEstimator
 
-Algoritmo de estimativa de esforço para tarefas de desenvolvimento de software baseado na técnica **PERT** (Program Evaluation and Review Technique). Recebe uma descrição de tarefa em JSON e retorna horas estimadas, Story Points em escala Fibonacci, desvio padrão, intervalo de confiança e nível de risco.
+PERT-based software effort estimation **Web API** built with .NET 10.
+Accepts a task description and returns estimated hours, Story Points (Fibonacci scale),
+standard deviation, a 68% confidence interval, and a risk level.
 
 ---
 
-## Requisitos
+## Requirements
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 
 ---
 
-## Instalação
+## Running the API
 
 ```bash
-git clone https://github.com/seu-usuario/effort-estimator.git
+git clone https://github.com/your-username/effort-estimator.git
 cd effort-estimator
-dotnet build
+dotnet run --project src/EffortEstimator.API
+```
+
+Swagger UI (development only):
+
+```
+https://localhost:<port>/swagger
 ```
 
 ---
 
-## Uso
+## API Endpoint
 
-### Executar com o exemplo embutido
+### `POST /api/estimation`
 
-```bash
-dotnet run
-```
+Estimates effort for a software task using the PERT formula.
 
-### Passar um JSON via stdin
-
-```bash
-dotnet run -- --stdin < task.json
-```
-
-### Exemplo de `task.json`
+#### Request body
 
 ```json
 {
-  "task_description": "Integração com gateway de pagamento",
+  "task_description": "Implement OAuth2 login flow with Google provider",
   "technical_complexity": "complex",
   "team_knowledge": "intermediate",
   "external_integrations": {
@@ -52,57 +52,81 @@ dotnet run -- --stdin < task.json
 }
 ```
 
-### Saída esperada
+#### Response
 
-```
-==============================================
-       PERT ESTIMATOR - RESULTADO
-==============================================
-
-  TASK:              Integração com gateway de pagamento
-  Otimista (O):        14.4 h
-  Mais Provável (M):   47.0 h
-  Pessimista (P):     145.7 h
-
-  PERT = (O + 4M + P) / 6 =   48.3 h
-
-  Story Points:        13 (Fibonacci)
-  Desvio Padrão:       21.9 h
-  Intervalo 68%:       26.4 h - 70.2 h
-  Risco:               Médio
+```json
+{
+  "task_description": "Implement OAuth2 login flow with Google provider",
+  "optimistic": 12.8,
+  "most_likely": 48.0,
+  "pessimistic": 145.7,
+  "pert_hours": 58.4,
+  "standard_deviation": 22.2,
+  "variance": 492.8,
+  "story_points": 21,
+  "confidence_range": {
+    "low": 36.2,
+    "high": 80.6
+  },
+  "risk_level": "Medium"
+}
 ```
 
 ---
 
-## Schema de Input
+## Input Schema
 
-| Campo | Tipo | Obrigatório | Valores aceitos |
+| Field | Type | Required | Accepted values |
 |---|---|---|---|
-| `task_description` | string | Não | Qualquer texto |
-| `technical_complexity` | string | Sim | `trivial` `simple` `moderate` `complex` `very_complex` |
-| `team_knowledge` | string | Sim | `expert` `intermediate` `beginner` `unknown` |
-| `external_integrations.count` | int | Não | `0` ou mais |
-| `external_integrations.complexity` | string | Não | `low` `medium` `high` |
-| `external_dependencies.count` | int | Não | `0` ou mais |
-| `external_dependencies.team_reliability` | string | Não | `high` `medium` `low` |
+| `task_description` | string | Yes (3–500 chars) | Any text |
+| `technical_complexity` | string | No | `trivial` `simple` `moderate` `complex` `very_complex` |
+| `team_knowledge` | string | No | `expert` `intermediate` `beginner` `unknown` |
+| `external_integrations.count` | int | No | `0` or more (max 50) |
+| `external_integrations.complexity` | string | No | `low` `medium` `high` |
+| `external_dependencies.count` | int | No | `0` or more (max 50) |
+| `external_dependencies.team_reliability` | string | No | `high` `medium` `low` |
 
 ---
 
-## Como o Algoritmo Funciona
+## Project Structure
 
-A estimativa é calculada em **5 etapas sequenciais**. Cada etapa ajusta três variáveis que percorrem o pipeline inteiro:
+```
+EffortEstimator/
+├── src/
+│   ├── EffortEstimator.Core/          # Domain + Application (zero external deps)
+│   │   ├── Application/
+│   │   │   ├── Dtos/                  # Input/output shapes for Core services
+│   │   │   ├── Interfaces/Services/   # Port — IEstimationEngine
+│   │   │   └── Services/              # PertEngine (core business logic)
+│   │   └── Domain/
+│   │       ├── Enums/                 # TechnicalComplexityLevel, RiskLevel, …
+│   │       └── ValueObjects/          # ConfidenceRange
+│   ├── EffortEstimator.Infrastructure/ # DI wiring for infrastructure adapters
+│   └── EffortEstimator.API/           # Web API composition root
+│       ├── Controllers/               # EstimationController
+│       ├── Mappers/                   # EstimationMapper (API ↔ Core)
+│       ├── Middleware/                # GlobalExceptionHandler
+│       ├── Models/Requests/           # EstimateRequest
+│       └── Models/Responses/          # EstimateResponse
+└── tests/
+    └── EffortEstimator.Core.Tests/    # PertEngine unit tests
+```
 
-- **O** — Otimista: melhor cenário possível
-- **M** — Mais Provável: estimativa realista
-- **P** — Pessimista: pior cenário
+---
 
-Os fatores de risco afetam O, M e P de forma **assimétrica**: riscos inflam P mais do que M, e M mais do que O — refletindo como problemas se acumulam em projetos reais.
+## How the Algorithm Works
 
-### Etapa 1 — Base pela complexidade técnica
+The estimate is computed in **5 sequential stages** operating on three variables:
 
-Define os valores iniciais de O, M e P:
+- **O** — Optimistic: best-case scenario
+- **M** — Most Likely: realistic estimate
+- **P** — Pessimistic: worst-case scenario
 
-| Nível | O | M | P |
+Risk factors affect O, M, and P **asymmetrically** — risks inflate P more than M, and M more than O, reflecting how problems compound in real projects.
+
+### Stage 1 — Base hours by technical complexity
+
+| Level | O | M | P |
 |---|---|---|---|
 | `trivial` | 0.5h | 1h | 2h |
 | `simple` | 1h | 3h | 6h |
@@ -110,43 +134,38 @@ Define os valores iniciais de O, M e P:
 | `complex` | 8h | 20h | 40h |
 | `very_complex` | 20h | 48h | 100h |
 
-### Etapa 2 — Integrações externas
-
-Cada serviço externo (API, gateway, terceiros) adiciona risco multiplicativo:
+### Stage 2 — External integrations
 
 ```
 intMult = 1 + count × (complexityMult - 1)
-  onde: low=1.1  |  medium=1.3  |  high=1.6
+  where: low=1.1  |  medium=1.3  |  high=1.6
 
-O *= 1 + (intMult - 1) × 0.5   ← absorve metade do risco
+O *= 1 + (intMult - 1) × 0.5   ← absorbs half the risk
 M *= intMult
-P *= intMult × 1.2              ← amplifica 20% a mais
+P *= intMult × 1.2              ← amplifies 20% extra
 ```
 
-### Etapa 3 — Conhecimento do time
+### Stage 3 — Team knowledge
 
-| Nível | ×O | ×M | ×P |
+| Level | ×O | ×M | ×P |
 |---|---|---|---|
 | `expert` | 0.8 | 0.9 | 1.0 |
 | `intermediate` | 1.0 | 1.0 | 1.2 |
 | `beginner` | 1.3 | 1.6 | 2.5 |
 | `unknown` | 1.2 | 1.5 | 2.8 |
 
-> `unknown` tem P maior que `beginner` porque a incerteza epistêmica — não saber nem o nível do time — é o pior cenário possível.
-
-### Etapa 4 — Dependências externas
-
-Modela risco de bloqueio por outros times ou serviços. O não é afetado (no cenário otimista, dependências chegam a tempo):
+### Stage 4 — External dependencies
 
 ```
 depPenalty = 1 + count × reliabilityRisk
-  onde: high=0.05  |  medium=0.15  |  low=0.35
+  where: high=0.05  |  medium=0.15  |  low=0.35
 
-M *= 1 + (depPenalty - 1) × 0.6
-P *= depPenalty
+M *= 1 + (depPenalty - 1) × 0.6    ← 60% of penalty
+P *= depPenalty                      ← full penalty
+O is unchanged                       ← optimistic assumes no blocking
 ```
 
-### Etapa 5 — Fórmula PERT e métricas
+### Stage 5 — PERT formula and metrics
 
 ```
 PERT  = (O + 4×M + P) / 6
@@ -154,22 +173,20 @@ PERT  = (O + 4×M + P) / 6
 σ²    = σ²
 CV    = σ / PERT
 
-Intervalo 68% = PERT ± σ
+Confidence interval (68%) = PERT ± σ
 ```
 
-O peso 4 no valor mais provável deriva da **distribuição Beta**, adequada para modelar processos assimétricos como duração de tarefas de software.
+**Risk level by coefficient of variation (CV):**
 
-**Nível de risco pelo coeficiente de variação (CV):**
-
-| CV | Risco |
+| CV | Risk |
 |---|---|
-| < 0.30 | Baixo |
-| < 0.60 | Médio |
-| ≥ 0.60 | Alto |
+| < 0.30 | Low |
+| < 0.60 | Medium |
+| ≥ 0.60 | High |
 
-**Mapeamento para Story Points (Fibonacci):**
+**Story Points (Fibonacci mapping):**
 
-| Horas PERT | Story Points |
+| PERT hours | Story Points |
 |---|---|
 | ≤ 2h | 1 |
 | ≤ 4h | 2 |
@@ -184,38 +201,7 @@ O peso 4 no valor mais provável deriva da **distribuição Beta**, adequada par
 
 ---
 
-## Estrutura do Projeto
-
-```
-EffortEstimator/
-├── 📂 .claude/
-│   └── 📂 dotnet-standards
-│   │   ├── 📂 references/
-│   │   │   ├── 📖 naming-conventions.md
-│   │   │   ├── 📖 project-structure.md
-│   │   │   └── 📖 solid-principles.md
-│   │   └── 📖 SKILL.md
-├── 📖 docs/
-│   ├── 📖 ALGORITHM.md
-│   └── 📖 DECISIONS.md
-├── 📄 EffortEstimator.sln
-├── 🔴 📖 **README.md**
-├── 📁 src/
-│   ├── 📖 CLAUDE.md
-│   ├── 📄 EffortEstimator.cs
-│   ├── 📄 EffortEstimator.csproj
-│   ├── 📄 Program.cs
-│   ├── 📂 skills/
-│   └── 📄 src.sln
-└── 🧪 tests/
-│   └── 📂 EffortEstimator.Tests/
-│   │   ├── 📄 EffortEstimator.Tests.csproj
-│   │   └── 📄 PertEngineTests.cs
-```
-
----
-
-## Referências
+## References
 
 - Malcolm et al. (1959) — *Application of a Technique for Research and Development Program Evaluation* — Operations Research, Vol. 7
 - PMI — *PMBOK Guide*
@@ -224,19 +210,17 @@ EffortEstimator/
 
 ---
 
-## Calibração
+## Calibration
 
-Os multiplicadores do algoritmo são **heurísticas de design**, não valores medidos empiricamente. Para uso em produção, calibre com dados históricos do seu time:
+The algorithm multipliers are **design heuristics**, not empirically measured values. For production use, calibrate against your team's historical data:
 
-1. Execute o estimador retroativamente em tarefas passadas com tempo real conhecido
-2. Compare `pert_hours` com o tempo real registrado
-3. Ajuste os multiplicadores no fator com maior erro
-4. Recalibre a cada 3–6 meses conforme o time evolui
-
-Para uma base mais rigorosa, os multiplicadores podem ser substituídos pelos valores do **COCOMO II**, que foram medidos em centenas de projetos reais.
+1. Run the estimator retrospectively on past tasks with known actual hours
+2. Compare `pert_hours` with actual time recorded
+3. Adjust the multiplier with the highest error
+4. Re-calibrate every 3–6 months as the team evolves
 
 ---
 
-## Licença
+## License
 
 MIT

@@ -1,12 +1,15 @@
 using System.Reflection;
 using System.Text.Json;
 using EffortEstimator.API.Middleware;
+using EffortEstimator.Core.Application.Interfaces.Services;
+using EffortEstimator.Core.Application.Services;
 using EffortEstimator.Infrastructure;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure();
+builder.Services.AddScoped<IEstimationEngine, PertEngine>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(opts =>
