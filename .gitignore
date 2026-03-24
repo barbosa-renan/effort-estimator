@@ -485,3 +485,12 @@ $RECYCLE.BIN/
 .env
 .env.local
 .claude/settings.local.json
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+coverage/
+*.js.map
+npm-debug.log*
+yarn-error.log*
