@@ -1,0 +1,43 @@
+<div class="app-layout">
+  <header class="app-header">
+    <div class="header-content">
+      <h1 class="app-title">EffortIQ</h1>
+      <p class="app-subtitle">Estimativa PERT de esforço de software</p>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <div class="card">
+      <h2 class="card-title">Nova Estimativa</h2>
+
+      @if (!result()) {
+        <app-estimation-form
+          (submitted)="onFormSubmitted($event)"
+        />
+
+        @if (isLoading()) {
+          <div class="loading-overlay">
+            <div class="spinner"></div>
+            <span>Calculando estimativa...</span>
+          </div>
+        }
+
+        @if (errorMessage()) {
+          <div class="error-banner" role="alert">
+            <span class="error-icon">&#9888;</span>
+            {{ errorMessage() }}
+          </div>
+        }
+      } @else {
+        <app-estimation-result
+          [result]="result()!"
+          (reset)="onReset()"
+        />
+      }
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <span>Powered by PERT &middot; Malcolm et al., 1959</span>
+  </footer>
+</div>

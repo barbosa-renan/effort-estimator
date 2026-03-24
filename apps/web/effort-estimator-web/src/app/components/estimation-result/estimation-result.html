@@ -1,0 +1,64 @@
+<div class="result-panel">
+
+  <!-- Header cards -->
+  <div class="highlight-cards">
+    <div class="highlight-card">
+      <span class="card-label">Story Points</span>
+      <span class="card-value sp-value">{{ result().storyPoints }}</span>
+    </div>
+    <div class="highlight-card" [class]="riskClass()">
+      <span class="card-label">Nível de Risco</span>
+      <span class="card-value">{{ riskLabel() }}</span>
+    </div>
+  </div>
+
+  <!-- PERT estimates table -->
+  <div class="result-section">
+    <h3 class="section-title">Estimativas PERT</h3>
+    <table class="pert-table">
+      <thead>
+        <tr>
+          <th>Estimativa</th>
+          <th>Horas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Otimista (O)</td>
+          <td>{{ result().optimistic | number:'1.1-1' }}h</td>
+        </tr>
+        <tr>
+          <td>Mais Provável (M)</td>
+          <td>{{ result().mostLikely | number:'1.1-1' }}h</td>
+        </tr>
+        <tr>
+          <td>Pessimista (P)</td>
+          <td>{{ result().pessimistic | number:'1.1-1' }}h</td>
+        </tr>
+        <tr class="pert-row">
+          <td><strong>PERT</strong></td>
+          <td><strong>{{ result().pertHours | number:'1.1-1' }}h</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Summary row -->
+  <div class="summary-row">
+    <div class="summary-item">
+      <span class="summary-label">Desvio Padrão</span>
+      <span class="summary-value">{{ result().standardDeviation | number:'1.1-1' }}h</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Intervalo de Confiança 68%</span>
+      <span class="summary-value">
+        {{ result().confidenceRange.low | number:'1.1-1' }}h – {{ result().confidenceRange.high | number:'1.1-1' }}h
+      </span>
+    </div>
+  </div>
+
+  <button type="button" class="btn-secondary" (click)="onReset()">
+    Nova Estimativa
+  </button>
+
+</div>

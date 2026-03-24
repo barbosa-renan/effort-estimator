@@ -1,0 +1,119 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="estimation-form" novalidate>
+
+  <!-- Task description -->
+  <div class="form-field">
+    <label for="taskDescription" class="form-label">Descrição da Tarefa <span class="optional">(opcional)</span></label>
+    <textarea
+      id="taskDescription"
+      formControlName="taskDescription"
+      class="form-textarea"
+      rows="3"
+      placeholder="Ex: Implementar fluxo de autenticação OAuth2 com Google"
+    ></textarea>
+  </div>
+
+  <!-- Technical complexity -->
+  <div class="form-field">
+    <label for="technicalComplexity" class="form-label">Complexidade Técnica <span class="required">*</span></label>
+    <select id="technicalComplexity" formControlName="technicalComplexity" class="form-select">
+      <option value="" disabled>Selecione...</option>
+      @for (opt of complexityOptions; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- Team knowledge -->
+  <div class="form-field">
+    <label for="teamKnowledge" class="form-label">Conhecimento da Equipe <span class="required">*</span></label>
+    <select id="teamKnowledge" formControlName="teamKnowledge" class="form-select">
+      <option value="" disabled>Selecione...</option>
+      @for (opt of teamKnowledgeOptions; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+
+  <!-- External integrations (collapsible) -->
+  <div class="collapsible-section" formGroupName="externalIntegrations">
+    <button type="button" class="collapsible-toggle" (click)="toggleIntegrations()">
+      <span class="toggle-icon">{{ isIntegrationsOpen() ? '▾' : '▸' }}</span>
+      Integrações Externas
+      @if (integrationsCount > 0) {
+        <span class="badge">{{ integrationsCount }}</span>
+      }
+    </button>
+
+    @if (isIntegrationsOpen()) {
+      <div class="collapsible-body">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="intCount" class="form-label">Quantidade</label>
+            <input
+              id="intCount"
+              type="number"
+              formControlName="count"
+              class="form-input"
+              min="0"
+              max="50"
+            />
+          </div>
+          <div class="form-field">
+            <label for="intComplexity" class="form-label">Complexidade das Integrações</label>
+            <select id="intComplexity" formControlName="complexity" class="form-select">
+              @for (opt of integrationComplexityOptions; track opt.value) {
+                <option [value]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- External dependencies (collapsible) -->
+  <div class="collapsible-section" formGroupName="externalDependencies">
+    <button type="button" class="collapsible-toggle" (click)="toggleDependencies()">
+      <span class="toggle-icon">{{ isDependenciesOpen() ? '▾' : '▸' }}</span>
+      Dependências Externas
+      @if (dependenciesCount > 0) {
+        <span class="badge">{{ dependenciesCount }}</span>
+      }
+    </button>
+
+    @if (isDependenciesOpen()) {
+      <div class="collapsible-body">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="depCount" class="form-label">Quantidade</label>
+            <input
+              id="depCount"
+              type="number"
+              formControlName="count"
+              class="form-input"
+              min="0"
+              max="50"
+            />
+          </div>
+          <div class="form-field">
+            <label for="depReliability" class="form-label">Confiabilidade da Equipe</label>
+            <select id="depReliability" formControlName="teamReliability" class="form-select">
+              @for (opt of teamReliabilityOptions; track opt.value) {
+                <option [value]="opt.value">{{ opt.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <button
+    type="submit"
+    class="btn-primary"
+    [disabled]="form.invalid"
+  >
+    Estimar
+  </button>
+
+</form>
