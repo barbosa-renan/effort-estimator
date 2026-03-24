@@ -18,7 +18,7 @@ Read all three rule files before taking any action in this codebase:
 
 ## Project
 
-**EffortEstimator** — PERT-based software effort estimation console application built with .NET 10.
+**EffortEstimator** — PERT-based software effort estimation API built with .NET 10, structured as a monorepo.
 
 Accepts a task description as JSON input and returns estimated hours, Story Points (Fibonacci),
 standard deviation, confidence interval, and risk level based on the PERT formula.
@@ -42,49 +42,32 @@ Invoke the relevant skill for active refactoring or test writing/reviewing proce
 ```
 EffortEstimator/
 ├── .claude/
-│   ├── skills/
-│   │   ├── dotnet-standards/
-│   │   │   ├── references/
-│   │   │   │   ├── naming-conventions.md
-│   │   │   │   ├── project-structure.md
-│   │   │   │   └── solid-principles.md
-│   │   │   └── SKILL.md
-│   │   ├── dotnet-unit-testing/
-│   │   │   ├── references/
-│   │   │   │   ├── advanced-patterns.md
-│   │   │   │   └── convetions.md
-│   │   │   └── SKILL.md
-│   │   └── azure-devops-mcp/
-│   │       ├── references/
-│   │       │   ├── setup.md
-│   │       │   └── mcp-tools.md
-│   │       └── SKILL.md
-│   └── rules/
+│   ├── rules/
 │   │   ├── RULES.md
 │   │   ├── dotnet-standards.md
 │   │   └── dotnet-testing.md
-├── **.gitignore**
+│   └── skills/
+│       ├── dotnet-standards/SKILL.md
+│       ├── dotnet-unit-testing/SKILL.md
+│       └── azure-devops-mcp/SKILL.md
+├── .gitignore
 ├── AGENTS.md
 ├── CLAUDE.md
+├── README.md
 ├── docs/
 │   ├── ALGORITHM.md
 │   └── DECISIONS.md
-├── EffortEstimator.sln
-├── project_structure.md
-├── **README.md**
-├── src/
-│   ├── EffortEstimator.cs
-│   ├── EffortEstimator.csproj
-│   ├── Models/
-│   │   └── Enums/
-│   ├── Program.cs
-│   ├── Services/
-│   ├── skills/
-│   └── src.sln
-└── tests/
-│   └── EffortEstimator.Tests/
-│   │   ├── EffortEstimator.Tests.csproj
-│   │   ├── PertEngineTests.cs
+└── apps/
+    ├── api/                          # Backend — .NET 10 Hexagonal
+    │   ├── EffortEstimator.sln
+    │   ├── src/
+    │   │   ├── EffortEstimator.API/
+    │   │   ├── EffortEstimator.Core/
+    │   │   └── EffortEstimator.Infrastructure/
+    │   └── tests/
+    │       └── EffortEstimator.Core.Tests/
+    └── web/                          # Frontend Angular (placeholder)
+        └── README.md
 ```
 
 ## Key Decisions
@@ -95,9 +78,12 @@ are documented in `docs/DECISIONS.md` and `docs/ALGORITHM.md`.
 ## Running the Project
 
 ```bash
-# Run with embedded example
-dotnet run --project src/EffortEstimator
+# Build
+dotnet build apps/api/EffortEstimator.sln
 
-# Run with custom JSON input
-dotnet run --project src/EffortEstimator -- --stdin < task.json
+# Run the API
+dotnet run --project apps/api/src/EffortEstimator.API
+
+# Run tests
+dotnet test apps/api/EffortEstimator.sln
 ```
