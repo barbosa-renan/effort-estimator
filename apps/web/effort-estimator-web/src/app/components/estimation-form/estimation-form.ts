@@ -12,8 +12,8 @@ import { EstimationRequest, TechnicalComplexity, TeamKnowledge, IntegrationCompl
 export class EstimationFormComponent implements OnInit {
   readonly submitted = output<EstimationRequest>();
 
-  protected readonly isIntegrationsOpen = signal(false);
-  protected readonly isDependenciesOpen = signal(false);
+  protected readonly isIntegrationsOpen = signal(true);
+  protected readonly isDependenciesOpen = signal(true);
 
   private readonly _fb = inject(FormBuilder);
 
