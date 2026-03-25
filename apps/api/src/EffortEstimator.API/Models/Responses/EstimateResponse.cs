@@ -6,10 +6,10 @@ namespace EffortEstimator.API.Models.Responses;
 public record EstimateResponse
 {
     /// <summary>
-    /// The task description provided in the request, echoed back for reference.
+    /// The task description provided in the request, echoed back for reference. Null when not provided.
     /// </summary>
     /// <example>Implement OAuth2 login flow with Google provider</example>
-    public string TaskDescription { get; init; } = string.Empty;
+    public string? TaskDescription { get; init; }
 
     /// <summary>
     /// Optimistic hours estimate — the best-case scenario after applying all multipliers.

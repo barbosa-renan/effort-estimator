@@ -1,0 +1,30 @@
+<div class="home-page">
+  <div class="card">
+    <h2 class="card-title">Nova Estimativa</h2>
+
+    @if (!result()) {
+      <app-estimation-form
+        (submitted)="onFormSubmitted($event)"
+      />
+
+      @if (isLoading()) {
+        <div class="loading-overlay">
+          <div class="spinner"></div>
+          <span>Calculando estimativa...</span>
+        </div>
+      }
+
+      @if (errorMessage()) {
+        <div class="error-banner" role="alert">
+          <span class="error-icon">&#9888;</span>
+          {{ errorMessage() }}
+        </div>
+      }
+    } @else {
+      <app-estimation-result
+        [result]="result()!"
+        (reset)="onReset()"
+      />
+    }
+  </div>
+</div>

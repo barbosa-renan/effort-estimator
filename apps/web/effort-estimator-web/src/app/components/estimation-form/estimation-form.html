@@ -14,24 +14,32 @@
 
   <!-- Technical complexity -->
   <div class="form-field">
-    <label for="technicalComplexity" class="form-label">Complexidade Técnica <span class="required">*</span></label>
-    <select id="technicalComplexity" formControlName="technicalComplexity" class="form-select">
-      <option value="" disabled>Selecione...</option>
+    <span class="form-label">Complexidade Técnica <span class="required">*</span></span>
+    <div class="btn-group" role="group" aria-label="Complexidade Técnica">
       @for (opt of complexityOptions; track opt.value) {
-        <option [value]="opt.value">{{ opt.label }}</option>
+        <button
+          type="button"
+          class="btn-option"
+          [class.btn-option--selected]="form.get('technicalComplexity')?.value === opt.value"
+          (click)="form.get('technicalComplexity')?.setValue(opt.value)"
+        >{{ opt.label }}</button>
       }
-    </select>
+    </div>
   </div>
 
   <!-- Team knowledge -->
   <div class="form-field">
-    <label for="teamKnowledge" class="form-label">Conhecimento da Equipe <span class="required">*</span></label>
-    <select id="teamKnowledge" formControlName="teamKnowledge" class="form-select">
-      <option value="" disabled>Selecione...</option>
+    <span class="form-label">Conhecimento da Equipe <span class="required">*</span></span>
+    <div class="btn-group" role="group" aria-label="Conhecimento da Equipe">
       @for (opt of teamKnowledgeOptions; track opt.value) {
-        <option [value]="opt.value">{{ opt.label }}</option>
+        <button
+          type="button"
+          class="btn-option"
+          [class.btn-option--selected]="form.get('teamKnowledge')?.value === opt.value"
+          (click)="form.get('teamKnowledge')?.setValue(opt.value)"
+        >{{ opt.label }}</button>
       }
-    </select>
+    </div>
   </div>
 
   <!-- External integrations (collapsible) -->
@@ -46,25 +54,29 @@
 
     @if (isIntegrationsOpen()) {
       <div class="collapsible-body">
-        <div class="form-row">
-          <div class="form-field">
-            <label for="intCount" class="form-label">Quantidade</label>
-            <input
-              id="intCount"
-              type="number"
-              formControlName="count"
-              class="form-input"
-              min="0"
-              max="50"
-            />
-          </div>
-          <div class="form-field">
-            <label for="intComplexity" class="form-label">Complexidade das Integrações</label>
-            <select id="intComplexity" formControlName="complexity" class="form-select">
-              @for (opt of integrationComplexityOptions; track opt.value) {
-                <option [value]="opt.value">{{ opt.label }}</option>
-              }
-            </select>
+        <div class="form-field">
+          <label for="intCount" class="form-label">Quantidade</label>
+          <input
+            id="intCount"
+            type="number"
+            formControlName="count"
+            class="form-input form-input--narrow"
+            min="0"
+            max="50"
+          />
+        </div>
+        <div class="form-field" [class.form-field--disabled]="integrationsCount === 0">
+          <span class="form-label">Complexidade das Integrações</span>
+          <div class="btn-group" role="group" aria-label="Complexidade das Integrações">
+            @for (opt of integrationComplexityOptions; track opt.value) {
+              <button
+                type="button"
+                class="btn-option"
+                [class.btn-option--selected]="form.get('externalIntegrations.complexity')?.value === opt.value"
+                [disabled]="integrationsCount === 0"
+                (click)="form.get('externalIntegrations.complexity')?.setValue(opt.value)"
+              >{{ opt.label }}</button>
+            }
           </div>
         </div>
       </div>
@@ -83,25 +95,29 @@
 
     @if (isDependenciesOpen()) {
       <div class="collapsible-body">
-        <div class="form-row">
-          <div class="form-field">
-            <label for="depCount" class="form-label">Quantidade</label>
-            <input
-              id="depCount"
-              type="number"
-              formControlName="count"
-              class="form-input"
-              min="0"
-              max="50"
-            />
-          </div>
-          <div class="form-field">
-            <label for="depReliability" class="form-label">Confiabilidade da Equipe</label>
-            <select id="depReliability" formControlName="teamReliability" class="form-select">
-              @for (opt of teamReliabilityOptions; track opt.value) {
-                <option [value]="opt.value">{{ opt.label }}</option>
-              }
-            </select>
+        <div class="form-field">
+          <label for="depCount" class="form-label">Quantidade</label>
+          <input
+            id="depCount"
+            type="number"
+            formControlName="count"
+            class="form-input form-input--narrow"
+            min="0"
+            max="50"
+          />
+        </div>
+        <div class="form-field" [class.form-field--disabled]="dependenciesCount === 0">
+          <span class="form-label">Confiabilidade da Equipe</span>
+          <div class="btn-group" role="group" aria-label="Confiabilidade da Equipe">
+            @for (opt of teamReliabilityOptions; track opt.value) {
+              <button
+                type="button"
+                class="btn-option"
+                [class.btn-option--selected]="form.get('externalDependencies.teamReliability')?.value === opt.value"
+                [disabled]="dependenciesCount === 0"
+                (click)="form.get('externalDependencies.teamReliability')?.setValue(opt.value)"
+              >{{ opt.label }}</button>
+            }
           </div>
         </div>
       </div>

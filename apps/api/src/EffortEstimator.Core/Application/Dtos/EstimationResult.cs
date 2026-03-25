@@ -5,7 +5,7 @@ namespace EffortEstimator.Core.Application.Dtos;
 
 public record EstimationResult
 {
-    public string TaskDescription   { get; init; } = string.Empty;
+    public string? TaskDescription  { get; init; }
     public double Optimistic        { get; init; }
     public double MostLikely        { get; init; }
     public double Pessimistic       { get; init; }

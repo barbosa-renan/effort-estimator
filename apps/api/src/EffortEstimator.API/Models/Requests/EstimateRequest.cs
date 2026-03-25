@@ -8,12 +8,11 @@ namespace EffortEstimator.API.Models.Requests;
 public record EstimateRequest
 {
     /// <summary>
-    /// Short description of the task to estimate (used as a label in the response).
+    /// Optional short description of the task to estimate (used as a label in the response).
     /// </summary>
     /// <example>Implement OAuth2 login flow with Google provider</example>
-    [Required]
     [StringLength(500, MinimumLength = 3)]
-    public string TaskDescription { get; init; } = string.Empty;
+    public string? TaskDescription { get; init; }
 
     /// <summary>
     /// Technical complexity of the task.

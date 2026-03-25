@@ -28,7 +28,7 @@ export interface ConfidenceRange {
 }
 
 export interface EstimationResponse {
-  taskDescription: string;
+  taskDescription?: string;
   optimistic: number;
   mostLikely: number;
   pessimistic: number;

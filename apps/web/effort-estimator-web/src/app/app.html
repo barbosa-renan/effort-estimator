@@ -1,43 +1,26 @@
 <div class="app-layout">
   <header class="app-header">
     <div class="header-content">
-      <h1 class="app-title">EffortIQ</h1>
-      <p class="app-subtitle">Estimativa PERT de esforço de software</p>
+      <div class="header-brand">
+        <h1 class="app-title">EffortIQ</h1>
+        <p class="app-subtitle">Estimativa PERT de esforço de software</p>
+      </div>
+      <nav class="app-nav">
+        <a routerLink="/" routerLinkActive="nav-link--active" [routerLinkActiveOptions]="{ exact: true }" class="nav-link">
+          Estimativa
+        </a>
+        <a routerLink="/sobre" routerLinkActive="nav-link--active" class="nav-link">
+          Sobre o Algoritmo
+        </a>
+      </nav>
     </div>
   </header>
 
   <main class="app-main">
-    <div class="card">
-      <h2 class="card-title">Nova Estimativa</h2>
-
-      @if (!result()) {
-        <app-estimation-form
-          (submitted)="onFormSubmitted($event)"
-        />
-
-        @if (isLoading()) {
-          <div class="loading-overlay">
-            <div class="spinner"></div>
-            <span>Calculando estimativa...</span>
-          </div>
-        }
-
-        @if (errorMessage()) {
-          <div class="error-banner" role="alert">
-            <span class="error-icon">&#9888;</span>
-            {{ errorMessage() }}
-          </div>
-        }
-      } @else {
-        <app-estimation-result
-          [result]="result()!"
-          (reset)="onReset()"
-        />
-      }
-    </div>
+    <router-outlet />
   </main>
 
   <footer class="app-footer">
-    <span>Powered by PERT &middot; Malcolm et al., 1959</span>
+    <span>Desenvolvido por Renan Barbosa &middot; 2025 <img src="https://flagcdn.com/16x12/br.png" width="16" height="12" alt="Brasil" class="footer-flag"></span>
   </footer>
 </div>

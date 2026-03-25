@@ -7,14 +7,24 @@
 // ── Header ────────────────────────────────────────────────────────────────────
 
 .app-header {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
   color: #fff;
-  padding: 1.5rem 2rem;
+  padding: 1.25rem 2rem;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.25);
 }
 
 .header-content {
   max-width: 720px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.header-brand {
+  flex-shrink: 0;
 }
 
 .app-title {
@@ -25,83 +35,44 @@
 }
 
 .app-subtitle {
-  margin: 0.25rem 0 0;
+  margin: 0.2rem 0 0;
+  font-size: 0.8125rem;
+  opacity: 0.8;
+}
+
+// ── Nav ───────────────────────────────────────────────────────────────────────
+
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-link {
+  display: inline-block;
+  padding: 0.4rem 0.875rem;
+  border-radius: var(--radius-md);
   font-size: 0.875rem;
-  opacity: 0.85;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+
+  &.nav-link--active {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 .app-main {
   flex: 1;
-  padding: 2rem 1.5rem;
-}
-
-.card {
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: 2rem;
-  max-width: 720px;
-  margin: 0 auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.card-title {
-  margin: 0 0 1.5rem;
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-// ── Loading overlay ───────────────────────────────────────────────────────────
-
-.loading-overlay {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background: var(--color-primary-ghost);
-  border-radius: var(--radius-md);
-  font-size: 0.9375rem;
-  color: var(--color-primary);
-  font-weight: 600;
-}
-
-.spinner {
-  width: 20px;
-  height: 20px;
-  border: 2.5px solid var(--color-primary);
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.75s linear infinite;
-  flex-shrink: 0;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-// ── Error banner ──────────────────────────────────────────────────────────────
-
-.error-banner {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  margin-top: 1.5rem;
-  padding: 0.875rem 1rem;
-  background: var(--color-risk-high-bg);
-  border: 1.5px solid var(--color-risk-high);
-  border-radius: var(--radius-md);
-  font-size: 0.9375rem;
-  color: var(--color-risk-high);
-  font-weight: 500;
-}
-
-.error-icon {
-  font-size: 1rem;
-  flex-shrink: 0;
 }
 
 // ── Footer ────────────────────────────────────────────────────────────────────
@@ -112,4 +83,23 @@
   font-size: 0.75rem;
   color: var(--color-text-muted);
   border-top: 1px solid var(--color-border);
+
+  .footer-flag {
+    vertical-align: middle;
+    margin-left: 0.25rem;
+  }
+}
+
+// ── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-width: 600px) {
+  .app-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
 }
