@@ -28,6 +28,31 @@
   --radius-xl:  16px;
 }
 
+// ── Dark theme tokens ──────────────────────────────────────────────────────────
+
+html[data-theme="dark"] {
+  --color-primary:        #3b82f6;
+  --color-primary-dark:   #2563eb;
+  --color-primary-ghost:  rgba(59, 130, 246, 0.15);
+
+  --color-text:           #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted:     #64748b;
+
+  --color-surface:        #1e293b;
+  --color-surface-alt:    #0f172a;
+  --color-border:         #334155;
+
+  --color-danger:         #f87171;
+
+  --color-risk-low:       #22c55e;
+  --color-risk-low-bg:    rgba(34, 197, 94, 0.1);
+  --color-risk-medium:    #eab308;
+  --color-risk-medium-bg: rgba(234, 179, 8, 0.1);
+  --color-risk-high:      #ef4444;
+  --color-risk-high-bg:   rgba(239, 68, 68, 0.1);
+}
+
 // ── Reset ─────────────────────────────────────────────────────────────────────
 
 *, *::before, *::after {
